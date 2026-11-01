@@ -339,3 +339,52 @@ main{
     font-size: 20px;
     cursor: pointer;
 }
+
+/* AI読み取りと手動入力の区切り */
+.inputDivider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 24px 0;
+  color: #888;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.inputDivider::before,
+.inputDivider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: #ddd;
+}
+
+/* AI画像読み取りエリアの余白 */
+.recipeImageImport h2 {
+  margin-bottom: 8px;
+}
+
+.recipeImageImport p {
+  margin-bottom: 16px;
+}
+
+.recipeImageImport .imageImportButton {
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+/* 手動入力エリアの見出しと説明文 */
+.manualInputSection {
+  margin-bottom: 20px;
+}
+
+.manualInputSection h2 {
+  margin-bottom: 8px;
+}
+
+.manualInputSection p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.6;
+}
