@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>レシピ追加</title>
 
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -23,9 +22,31 @@
 
         <section class="formCard">
 
+            <!-- AI画像読み取り -->
+            <div class="recipeImageImport">
+
+                <h2>📷 写真・スクショから読み込む</h2>
+
+                <p>
+                    レシピが写った画像をAIが読み取り、
+                    料理名・材料・作り方を自動入力します。
+                </p>
+
+                <label class="imageImportButton">
+                    画像を選択
+                    <input type="file" id="recipeImportImage" accept="image/*" hidden>
+                </label>
+
+                <p id="imageImportStatus"></p>
+
+            </div>
+
+            <hr>
+
+
             <label>料理名</label>
             <input type="text" id="recipeTitle">
-            <label for = "recipeTitleKana">よみがな</label>
+            <label for="recipeTitleKana">よみがな</label>
             <input type="text" id="recipeTitleKana">
 
             <label>料理写真（最大3枚）</label>
@@ -38,15 +59,15 @@
             <div id="imagePreviewArea" class="imagePreviewArea"></div>
 
             <label>材料名</label>
-            
+
             <div id="ingredientsArea">
                 <div class="ingredientRow">
                     <input type="text" class="ingredientName" placeholder="材料名">
                     <input type="text" class="ingredientAmount" placeholder="分量">
-                    <button type="button"class="removeIngredientButton">×</button>
+                    <button type="button" class="removeIngredientButton">×</button>
                 </div>
             </div>
-            
+
             <button type="button" id="addIngredientButton" class="smallButton">
                 ＋　材料を追加
             </button>
@@ -58,7 +79,7 @@
                     <textarea class="stepInput" placeholder="手順を入力"></textarea>
                     <button type="button" class="deleteButton">×</button>
                 </div>
-            </div> 
+            </div>
 
             <button type="button" id="addStepButton" class="smallButton">
                 ＋　手順を追加

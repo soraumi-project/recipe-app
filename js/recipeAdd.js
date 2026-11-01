@@ -7,47 +7,47 @@ function compressImage(
     file,
     maxSize = 1200,
     quantity = 0.75
-){
-    return new Promise((resolve, reject) =>{
-        if(!file.type.startsWith("image/")){
+) {
+    return new Promise((resolve, reject) => {
+        if (!file.type.startsWith("image/")) {
             reject(new Error("画像ファイルではありません"));
             return;
         }
 
         const render = new FileReader();
 
-        render.onload = () =>{
+        render.onload = () => {
             const image = new Image();
 
-            image.onload = () =>{
+            image.onload = () => {
                 let width = image.naturalWidth;
                 let height = image.naturalHeight;
 
-                if(width > height && width > maxSize){
+                if (width > height && width > maxSize) {
                     height = Math.round(
                         height * (maxSize / width)
                     );
                     width = maxSize;
-                }else if(
+                } else if (
                     height >= width &&
                     height > maxSize
-                ){
+                ) {
                     width = Math.round(
                         width * (maxSize / height)
                     );
                     height = maxSize;
                 }
 
-                const canvas = 
+                const canvas =
                     document.createElement("canvas");
 
                 canvas.width = width;
                 canvas.height = height;
 
-                const context = 
+                const context =
                     canvas.getContext("2d");
 
-                if(!context){
+                if (!context) {
                     reject(
                         new Error(
                             "画像を処理できませんでした"
@@ -74,14 +74,14 @@ function compressImage(
                     width,
                     height
                 );
-                const compressedDaraUrl = 
+                const compressedDaraUrl =
                     canvas.toDataURL(
                         "image/jpeg",
                         quantity
                     );
                 resolve(compressedDaraUrl);
             };
-            image.onerror = () =>{
+            image.onerror = () => {
                 reject(
                     new Error(
                         "画像を読み込めませんでした"
@@ -90,7 +90,7 @@ function compressImage(
             };
             image.src = render.result;
         };
-        render.onerror = () =>{
+        render.onerror = () => {
             reject(
                 new Error(
                     "ファイルを読み込めませんでした"
@@ -187,9 +187,8 @@ function showImagePreview() {
             alt="料理写真"
         >
 
-        ${
-            showNavigation
-                ? `
+        ${showNavigation
+            ? `
                     <button
                         type="button"
                         class="imageNavButton imagePrevButton"
@@ -206,7 +205,7 @@ function showImagePreview() {
                         ›
                     </button>
                 `
-                : ""
+            : ""
         }
 
         <button
@@ -256,7 +255,7 @@ imagePreviewArea.addEventListener("click", (event) => {
 
 
 //材料エリア
-const ingredientsArea =document.getElementById("ingredientsArea");
+const ingredientsArea = document.getElementById("ingredientsArea");
 const addIngredientButton = document.getElementById("addIngredientButton");
 
 //作り方エリア
@@ -264,7 +263,7 @@ const stepsArea = document.getElementById("stepsArea");
 const addStepButton = document.getElementById("addStepButton");
 
 //材料を追加
-addIngredientButton.addEventListener("click", () =>{
+addIngredientButton.addEventListener("click", () => {
     const ingredientRow = document.createElement("div");
     ingredientRow.className = "ingredientRow"
 
@@ -278,7 +277,7 @@ addIngredientButton.addEventListener("click", () =>{
 });
 
 //手順を追加
-addStepButton.addEventListener("click", () =>{
+addStepButton.addEventListener("click", () => {
     const stepRow = document.createElement("div");
     stepRow.className = "stepRow";
 
@@ -290,8 +289,8 @@ addStepButton.addEventListener("click", () =>{
     stepsArea.appendChild(stepRow);
 });
 
-document.addEventListener("click", (event) =>{
-    if(event.target.classList.contains("deleteButton")){
+document.addEventListener("click", (event) => {
+    if (event.target.classList.contains("deleteButton")) {
         event.target.parentElement.remove();
     }
 });
@@ -304,12 +303,12 @@ const saveRecipeButton = document.getElementById("saveRecipeButton");
 const recipeTitleInput = document.getElementById("recipeTitle");
 const recipeTitleKanaInput = document.getElementById("recipeTitleKana");
 
-saveRecipeButton.addEventListener("click", () =>{
+saveRecipeButton.addEventListener("click", () => {
     //料理名
     const title = recipeTitleInput.value.trim();
-    const titleKana = recipeTitleKanaInput.value.trim();    
+    const titleKana = recipeTitleKanaInput.value.trim();
 
-    if(title === ""){
+    if (title === "") {
         alert("料理名を入力してください")
         recipeTitleInput.focus();
         return;
@@ -327,7 +326,7 @@ saveRecipeButton.addEventListener("click", () =>{
             row.querySelector(".ingredientAmount");
 
         //必要な入力欄が見つからない行は飛ばす
-        if(!nameInput || !amountInput){
+        if (!nameInput || !amountInput) {
             console.warn("材料蘭が見つかりませんでした", row);
             return;
         }
@@ -337,7 +336,7 @@ saveRecipeButton.addEventListener("click", () =>{
         const amount = amountInput ? amountInput.value.trim() : "";
 
         //材料名か分量のどちらかが入力されていれば保存
-        if(name !=="" || amount !==""){
+        if (name !== "" || amount !== "") {
             ingredients.push({
                 name: name,
                 amount: amount
@@ -352,7 +351,7 @@ saveRecipeButton.addEventListener("click", () =>{
     stepInputs.forEach((input) => {
         const step = input.value.trim();
 
-        if(step != ""){
+        if (step != "") {
             steps.push(step);
         }
     });
@@ -362,7 +361,7 @@ saveRecipeButton.addEventListener("click", () =>{
         'input[name="tag"]:checked'
     );
 
-    const tag = selectedTag ? selectedTag.value: "なし";
+    const tag = selectedTag ? selectedTag.value : "なし";
 
     //レシピ1件分のデータ
     const newRecipe = {
@@ -381,35 +380,199 @@ saveRecipeButton.addEventListener("click", () =>{
     console.log("保存する写真枚数", newRecipe.images.length);
 
     //すでに保存されているレシピを取得
-    const saveRecipes = 
+    const saveRecipes =
         JSON.parse(localStorage.getItem("recipes")) || [];
-    
+
     //新しいレシピを追加
     saveRecipes.push(newRecipe);
 
     //localStorageに保存
-    try{
+    try {
         localStorage.setItem(
             "recipes",
             JSON.stringify(saveRecipes)
         );
 
         console.log(
-        "保存後のrecipes",
-        JSON.parse(localStorage.getItem("recipes"))
+            "保存後のrecipes",
+            JSON.parse(localStorage.getItem("recipes"))
         );
-        
+
         alert("レシピを保存しました");
 
         //保存後にホームへ戻る
         location.href = "index.html";
-    
-    }catch(error){
+
+    } catch (error) {
         console.error(error);
 
         alert(
             "保存容量を超えた可能性があります。写真を減らすか、小さい画像を使ってください。"
         );
-        
+
     }
+});
+
+// =========================
+// AI画像読み取り
+// =========================
+
+const recipeImportImage =
+    document.getElementById("recipeImportImage");
+
+const imageImportStatus =
+    document.getElementById("imageImportStatus");
+
+recipeImportImage.addEventListener("change", async () => {
+
+    const file = recipeImportImage.files[0];
+
+    if (!file) {
+        return;
+    }
+
+    console.log("AI読み取り用画像:", file);
+
+    imageImportStatus.textContent =
+        `選択した画像：${file.name}`;
+
+    try {
+
+        imageImportStatus.textContent =
+            "画像を読み込んでいます...";
+
+        const compressedImage =
+            await compressImage(file, 1200, 0.75);
+
+        console.log(
+            "AI読み取り用Base64:",
+            compressedImage
+        );
+
+        imageImportStatus.textContent =
+            `画像の準備完了：${file.name}`;
+
+        const base64Data = compressedImage.split(",")[1];
+
+        imageImportStatus.textContent =
+            "AIがレシピを読み取っています...";
+
+        const response = await fetch(
+            "https://recipe-gemini-api.zuotengyahai177.workers.dev/",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    mode: "image",
+                    imageBase64: base64Data,
+                    mimeType: "image/jpeg"
+                })
+            }
+        );
+
+        // Geminiからの返事を確認
+        if (!response.ok) {
+            const errorData = await response.text();
+            throw new Error(errorData);
+        }
+
+        // 返ってきたJSONを取得
+        const recipeData = await response.json();
+
+        console.log("Geminiの読み取り結果:", recipeData);
+
+        // AIが読み取った料理名を入力欄に反映
+        recipeTitleInput.value = recipeData.title || "";
+
+        // AIが読み取ったよみがなを入力欄に反映
+        const recipeYomiganaInput = document.getElementById("recipeTitleKana");
+
+        if (recipeYomiganaInput) {
+            recipeYomiganaInput.value = recipeData.yomigana || "";
+            console.log("よみがな自動入力確認:", recipeData.yomigana);
+        
+        }
+
+        // AIが読み取った材料を入力欄に反映
+        if (Array.isArray(recipeData.ingredients)) {
+
+            // 既存の材料入力欄をクリア
+            ingredientsArea.innerHTML = "";
+
+            recipeData.ingredients.forEach((ingredient) => {
+
+                const ingredientRow = document.createElement("div");
+                ingredientRow.className = "ingredientRow";
+
+                const nameInput = document.createElement("input");
+                nameInput.type = "text";
+                nameInput.className = "ingredientName";
+                nameInput.placeholder = "材料名";
+
+                const amountInput = document.createElement("input");
+                amountInput.type = "text";
+                amountInput.className = "ingredientAmount";
+                amountInput.placeholder = "分量";
+
+                if (typeof ingredient === "string") {
+                    nameInput.value = ingredient;
+                } else {
+                    nameInput.value = ingredient.name || "";
+                    amountInput.value = ingredient.amount || "";
+                }
+
+                const deleteButton = document.createElement("button");
+                deleteButton.type = "button";
+                deleteButton.className = "deleteButton";
+                deleteButton.textContent = "×";
+
+                ingredientRow.append(nameInput, amountInput, deleteButton);
+                ingredientsArea.appendChild(ingredientRow);
+            });
+        }
+
+        // AIが読み取った作り方を入力欄に反映
+        if (Array.isArray(recipeData.steps)) {
+
+            // 既存の手順欄をクリア
+            stepsArea.innerHTML = "";
+
+            recipeData.steps.forEach((step) => {
+
+                const stepRow = document.createElement("div");
+                stepRow.className = "stepRow";
+
+                const stepInput = document.createElement("textarea");
+                stepInput.className = "stepInput";
+                stepInput.placeholder = "手順を入力";
+                stepInput.value = typeof step === "string"
+                    ? step
+                    : (step.text || step.description || "");
+
+                const deleteButton = document.createElement("button");
+                deleteButton.type = "button";
+                deleteButton.className = "deleteButton";
+                deleteButton.textContent = "×";
+
+                stepRow.append(stepInput, deleteButton);
+                stepsArea.appendChild(stepRow);
+            });
+        }
+
+        imageImportStatus.textContent =
+            "AIによる画像の読み取りが完了しました！";
+
+    } catch (error) {
+
+        console.error(
+            "AI読み取り用画像の処理に失敗しました",
+            error
+        );
+
+        imageImportStatus.textContent =
+            "画像を読み込めませんでした。";
+    }
+
 });
