@@ -1,17 +1,17 @@
 const backButton = document.getElementById("backButton");
 
-if(backButton){
-    backButton.addEventListener("click", () =>{
+if (backButton) {
+    backButton.addEventListener("click", () => {
         window.location.href = "index.html";
     });
 }
 
 const STOCK_STORAGE_KEY = "stockList";
 
-let stockList = 
+let stockList =
     JSON.parse(localStorage.getItem(STOCK_STORAGE_KEY)) || [];
 
-const stockNameInput = 
+const stockNameInput =
     document.getElementById("stockNameInput");
 
 const stockQuantityInput =
@@ -23,13 +23,13 @@ const stockUnitInput =
 const stockAlertInput =
     document.getElementById("stockAlertInput")
 
-const addStockButton = 
+const addStockButton =
     document.getElementById("addStockButton")
 
-const stockListElement = 
+const stockListElement =
     document.getElementById("stockList");
 
-const emptyMessage = 
+const emptyMessage =
     document.getElementById("emptyMessage");
 
 let editingIndex = null;
@@ -37,7 +37,7 @@ let editingIndex = null;
 /**
  * 保存用関数
  */
-function saveStockList(){
+function saveStockList() {
     localStorage.setItem(
         STOCK_STORAGE_KEY,
         JSON.stringify(stockList)
@@ -47,17 +47,17 @@ function saveStockList(){
 /**
  * 表示用関数
  */
-function renderStockList(){
+function renderStockList() {
     stockListElement.innerHTML = "";
 
-    if(stockList.length === 0){
+    if (stockList.length === 0) {
         emptyMessage.style.display = "block";
         return;
     }
 
     emptyMessage.style.display = "none";
 
-    stockList.forEach((item,index) =>{
+    stockList.forEach((item, index) => {
         const li = document.createElement("li");
 
         const itemInfo = document.createElement("div");
@@ -95,13 +95,13 @@ function renderStockList(){
         deleteButton.classList.add("deleteStockButton");
         deleteButton.textContent = "削除"
 
-        deleteButton.addEventListener("click", () =>{
-            const shouldDelete = 
+        deleteButton.addEventListener("click", () => {
+            const shouldDelete =
                 window.confirm(
                     `${item.name}を在庫から削除しますか？`
                 );
 
-            if(!shouldDelete){
+            if (!shouldDelete) {
                 return;
             }
 
@@ -117,7 +117,7 @@ function renderStockList(){
         editButton.classList.add("editStockButton");
         editButton.textContent = "編集"
 
-        editButton.addEventListener("click", () =>{
+        editButton.addEventListener("click", () => {
             stockNameInput.value = item.name;
             stockQuantityInput.value = item.quantity;
             stockUnitInput.value = item.unit;
@@ -134,15 +134,15 @@ function renderStockList(){
         shoppingButton.classList.add("shoppingStockButton");
         shoppingButton.textContent = "買い物リストへ";
 
-        shoppingButton.addEventListener("click", () =>{
-            let shoppingList = 
+        shoppingButton.addEventListener("click", () => {
+            let shoppingList =
                 JSON.parse(localStorage.getItem("shoppingList")) || [];
-            
-            const alreadyExists = shoppingList.some((shoppingItem) =>{
+
+            const alreadyExists = shoppingList.some((shoppingItem) => {
                 return shoppingItem.name === item.name;
             });
 
-            if(alreadyExists){
+            if (alreadyExists) {
                 alert(`${item.name}はすでに買い物リストに入っています`);
                 return;
             }
@@ -181,32 +181,42 @@ function renderStockList(){
 /**
  * 追加ボタン
  */
-addStockButton.addEventListener("click", ()=>{
+addStockButton.addEventListener("click", () => {
     const name = stockNameInput.value.trim();
     const quantity = Number(stockQuantityInput.value);
     const unit = stockUnitInput.value.trim();
     const alertQuantity = Number(stockAlertInput.value);
 
-    if(name === ""){
+
+    // 警告する数量を先にチェック
+    if (
+        stockAlertInput.value === "" ||
+        !Number.isInteger(alertQuantity) ||
+        alertQuantity < 0
+    ) {
+        alert("警告する数量を正しく入力してください。");
+        return;
+    }
+    if (name === "") {
         alert("材料名を入力してください");
         return;
     }
 
-    if(
+    if (
         stockQuantityInput.value === "" ||
         quantity < 0
-    ){
+    ) {
         alert("数量を正しく入力してください");
         return;
     }
 
-    if(unit === ""){
+    if (unit === "") {
         alert("単位を入力してください");
         return;
     }
-    
 
-    if(editingIndex !== null){
+
+    if (editingIndex !== null) {
         stockList[editingIndex] = {
             name: name,
             quantity: quantity,
@@ -216,7 +226,7 @@ addStockButton.addEventListener("click", ()=>{
 
         editingIndex = null;
         addStockButton.textContent = "在庫に追加";
-    }else{
+    } else {
         stockList.push({
             name: name,
             quantity: quantity,
@@ -225,13 +235,7 @@ addStockButton.addEventListener("click", ()=>{
         });
     }
 
-    if (
-    stockAlertInput.value === "" ||
-    alertQuantity < 0
-    ) {
-    alert("警告する数量を正しく入力してください。");
-    return;
-    }
+
 
     saveStockList();
     renderStockList();

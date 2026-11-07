@@ -54,9 +54,25 @@
 
 
             <label>料理名</label>
-            <input type="text" id="recipeTitle">
+            <div class="voiceInputRow">
+                <input type="text" id="recipeTitle">
+
+                <button type="button" class="voiceInputButton"
+                    onclick="startVoiceInput(document.getElementById('recipeTitle'))" aria-label="料理名を音声入力">
+                    🎤
+                </button>
+            </div>
+
             <label for="recipeTitleKana">よみがな</label>
-            <input type="text" id="recipeTitleKana">
+
+            <div class="voiceInputRow">
+                <input type="text" id="recipeTitleKana">
+
+                <button type="button" class="voiceInputButton"
+                    onclick="startVoiceInput(document.getElementById('recipeTitleKana'))" aria-label="よみがなを音声入力">
+                    🎤
+                </button>
+            </div>
 
             <label>料理写真（最大3枚）</label>
             <label class="imageUploadBox">
@@ -71,9 +87,22 @@
 
             <div id="ingredientsArea">
                 <div class="ingredientRow">
-                    <input type="text" class="ingredientName" placeholder="材料名">
-                    <input type="text" class="ingredientAmount" placeholder="分量">
-                    <button type="button" class="removeIngredientButton">×</button>
+                    <div class="voiceInputRow">
+                        <input type="text" class="ingredientName" placeholder="材料名">
+                        <button type="button" class="voiceInputButton"
+                            onclick="startVoiceInput(this.previousElementSibling)" aria-label="材料名を音声入力">
+                            🎤
+                        </button>
+                    </div>
+
+                    <div class="voiceInputRow">
+                        <input type="text" class="ingredientAmount" placeholder="分量">
+                        <button type="button" class="voiceInputButton"
+                            onclick="startVoiceInput(this.previousElementSibling)" aria-label="分量を音声入力">
+                            🎤
+                        </button>
+                    </div>
+                    <button type="button" class="deleteButton">×</button>
                 </div>
             </div>
 
@@ -85,7 +114,14 @@
 
             <div id="stepsArea">
                 <div class="stepRow">
-                    <textarea class="stepInput" placeholder="手順を入力"></textarea>
+                    <div class="voiceInputRow">
+                        <textarea class="stepInput" placeholder="手順を入力"></textarea>
+                        <button type="button" class="voiceInputButton"
+                            onclick="startVoiceInput(this.previousElementSibling)" aria-label="作り方を音声入力">
+                            🎤
+                        </button>
+                    </div>
+
                     <button type="button" class="deleteButton">×</button>
                 </div>
             </div>
@@ -114,6 +150,7 @@
 
     </main>
 
+    <script src="js/voice-input.js"></script>
     <script src="js/recipeAdd.js"></script>
 
 </body>

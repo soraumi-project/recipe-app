@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>レシピ編集</title>
 
@@ -15,11 +13,8 @@
 
 <body>
     <header class="page-header">
-        <a
-            id="back-button" href="recipe-list.html"
-            class="back-button" aria-label="前の画面に戻る"
-        >
-            ←  
+        <a id="back-button" href="recipe-list.html" class="back-button" aria-label="前の画面に戻る">
+            ←
         </a>
 
         <h1>レシピ編集</h1>
@@ -29,36 +24,32 @@
 
     <main class="recipe-edit-main">
         <!--レシピが見つかった場合-->
-        <from id="recipe-edit-form" hidden>
-            <!--料理名--> 
+        <form id="recipe-edit-form" hidden>
+            <!--料理名-->
             <section class="form-seciton">
                 <label for="recipe-title" class="form-label">
                     料理名
                     <span class="required-label">必須</span>
                 </label>
 
-                <input
-                    type="text"
-                    id="recipe-title"
-                    class="text-input"
-                    required
-                >
+                <div class="voiceInputRow">
+                    <input type="text" id="recipe-title" class="text-input" required>
+                    <button type="button" class="voiceInputButton"
+                        onclick="startVoiceInput(this.previousElementSibling)" aria-label="料理名を音声入力">🎤</button>
+                </div>
             </section>
 
             <!-- よみがな -->
             <section class="form-section">
-                <label
-                    for="recipe-title-kana"
-                    class="form-label"
-                >
+                <label for="recipe-title-kana" class="form-label">
                     よみがな
                 </label>
 
-                <input
-                    type="text"
-                    id="recipe-title-kana"
-                    class="text-input"
-                >
+                <div class="voiceInputRow">
+                    <input type="text" id="recipe-title-kana" class="text-input">
+                    <button type="button" class="voiceInputButton"
+                        onclick="startVoiceInput(this.previousElementSibling)" aria-label="よみがなを音声入力">🎤</button>
+                </div>
 
                 <p class="input-note">
                     漢字で始まる料理を五十音順に並べるために使います。
@@ -72,70 +63,33 @@
                     <span class="sub-label">最大3枚</span>
                 </h2>
 
-                <label
-                    for="recipe-image-input"
-                    class="image-add-button"
-                >
+                <label for="recipe-image-input" class="image-add-button">
                     ＋ 写真を追加する
                 </label>
 
-                <input
-                    type="file"
-                    id="recipe-image-input"
-                    accept="image/*"
-                    multiple
-                    hidden
-                >
+                <input type="file" id="recipe-image-input" accept="image/*" multiple hidden>
 
-                <div
-                    id="image-preview-area"
-                    class="image-preview-area"
-                    hidden
-                >
-                    <button
-                        type="button"
-                        id="previous-image-button"
-                        class="image-arrow image-arrow-left"
-                        aria-label="前の写真"
-                    >
+                <div id="image-preview-area" class="image-preview-area" hidden>
+                    <button type="button" id="previous-image-button" class="image-arrow image-arrow-left"
+                        aria-label="前の写真">
                         ‹
                     </button>
 
-                    <img
-                        id="image-preview"
-                        class="image-preview"
-                        src=""
-                        alt="料理写真のプレビュー"
-                    >
+                    <img id="image-preview" class="image-preview" src="" alt="料理写真のプレビュー">
 
-                    <button
-                        type="button"
-                        id="next-image-button"
-                        class="image-arrow image-arrow-right"
-                        aria-label="次の写真"
-                    >
+                    <button type="button" id="next-image-button" class="image-arrow image-arrow-right"
+                        aria-label="次の写真">
                         ›
                     </button>
 
-                    <button
-                        type="button"
-                        id="remove-image-button"
-                        class="remove-image-button"
-                        aria-label="現在の写真を削除"
-                    >
+                    <button type="button" id="remove-image-button" class="remove-image-button" aria-label="現在の写真を削除">
                         ×
                     </button>
 
-                    <span
-                        id="image-count"
-                        class="image-count"
-                    ></span>
+                    <span id="image-count" class="image-count"></span>
                 </div>
 
-                <p
-                    id="image-empty-message"
-                    class="input-note"
-                >
+                <p id="image-empty-message" class="input-note">
                     写真は登録されていません。
                 </p>
             </section>
@@ -144,16 +98,9 @@
             <section class="form-section">
                 <h2 class="form-label">材料</h2>
 
-                <div
-                    id="ingredient-container"
-                    class="ingredient-container"
-                ></div>
+                <div id="ingredient-container" class="ingredient-container"></div>
 
-                <button
-                    type="button"
-                    id="add-ingredient-button"
-                    class="add-row-button"
-                >
+                <button type="button" id="add-ingredient-button" class="add-row-button">
                     ＋ 材料を追加
                 </button>
             </section>
@@ -162,16 +109,9 @@
             <section class="form-section">
                 <h2 class="form-label">作り方</h2>
 
-                <div
-                    id="step-container"
-                    class="step-container"
-                ></div>
+                <div id="step-container" class="step-container"></div>
 
-                <button
-                    type="button"
-                    id="add-step-button"
-                    class="add-row-button"
-                >
+                <button type="button" id="add-step-button" class="add-row-button">
                     ＋ 手順を追加
                 </button>
             </section>
@@ -180,43 +120,24 @@
             <section class="form-section">
                 <h2 class="form-label">タグ</h2>
 
-                <div
-                    id="tag-container"
-                    class="tag-container"
-                >
+                <div id="tag-container" class="tag-container">
                     <label class="tag-option">
-                        <input
-                            type="radio"
-                            name="recipe-tag"
-                            value="和食"
-                        >
+                        <input type="radio" name="recipe-tag" value="和食">
                         <span>和食</span>
                     </label>
 
                     <label class="tag-option">
-                        <input
-                            type="radio"
-                            name="recipe-tag"
-                            value="洋食"
-                        >
+                        <input type="radio" name="recipe-tag" value="洋食">
                         <span>洋食</span>
                     </label>
 
                     <label class="tag-option">
-                        <input
-                            type="radio"
-                            name="recipe-tag"
-                            value="中華"
-                        >
+                        <input type="radio" name="recipe-tag" value="中華">
                         <span>中華</span>
                     </label>
 
                     <label class="tag-option">
-                        <input
-                            type="radio"
-                            name="recipe-tag"
-                            value="なし"
-                        >
+                        <input type="radio" name="recipe-tag" value="なし">
                         <span>なし</span>
                     </label>
                 </div>
@@ -224,43 +145,30 @@
 
             <!-- 更新ボタン -->
             <div class="bottom-buttons">
-                <button
-                    type="button"
-                    id="update-button"
-                    class="update-button"
-                >
+                <button type="button" id="update-button" class="update-button">
                     更新する
                 </button>
 
-                <a
-                    id="cancel-button"
-                    href="recipe-list.html"
-                    class="cancel-button"
-                >
+                <a id="cancel-button" href="recipe-list.html" class="cancel-button">
                     キャンセル
                 </a>
             </div>
         </form>
 
         <!-- レシピが見つからない場合 -->
-        <section
-            id="not-found-message"
-            class="not-found-message"
-            hidden
-        >
+        <section id="not-found-message" class="not-found-message" hidden>
             <p class="not-found-icon">🍳</p>
 
             <h2>編集するレシピが見つかりません</h2>
 
-            <a
-                href="recipe-list.html"
-                class="list-link"
-            >
+            <a href="recipe-list.html" class="list-link">
                 レシピ一覧に戻る
             </a>
         </section>
     </main>
 
+    <script src="js/voice-input.js"></script>
     <script src="js/recipe-edit.js"></script>
 </body>
+
 </html>

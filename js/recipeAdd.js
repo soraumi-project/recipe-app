@@ -268,10 +268,28 @@ addIngredientButton.addEventListener("click", () => {
     ingredientRow.className = "ingredientRow"
 
     ingredientRow.innerHTML = `
+  <div class="voiceInputRow">
     <input type="text" class="ingredientName" placeholder="材料名">
-    <input type="text" class="ingredientAmount" placehplder="分量">
-    <button type="button" class="deleteButton">×</button>
-    `;
+    <button type="button" class="voiceInputButton"
+      onclick="startVoiceInput(this.previousElementSibling)"
+      aria-label="材料名を音声入力">
+      🎤
+    </button>
+  </div>
+
+    <div class="voiceInputRow">
+  <input type="text" class="ingredientAmount" placeholder="分量">
+  <button
+    type="button"
+    class="voiceInputButton"
+    onclick="startVoiceInput(this.previousElementSibling)"
+    aria-label="分量を音声入力">
+    🎤
+  </button>
+</div>
+
+<button type="button" class="deleteButton">×</button>
+`;
 
     ingredientsArea.appendChild(ingredientRow);
 });
@@ -282,8 +300,18 @@ addStepButton.addEventListener("click", () => {
     stepRow.className = "stepRow";
 
     stepRow.innerHTML = `
-    <textarea class="stepInput" placeholder="手順を入力"></textarea>;
-    <button type="button" class="deleteButton">×</button>
+    <div class="voiceInputRow">
+  <textarea class="stepInput" placeholder="手順を入力"></textarea>
+  <button
+    type="button"
+    class="voiceInputButton"
+    onclick="startVoiceInput(this.previousElementSibling)"
+    aria-label="作り方を音声入力">
+    🎤
+  </button>
+</div>
+
+<button type="button" class="deleteButton">×</button>
     `;
 
     stepsArea.appendChild(stepRow);
@@ -492,7 +520,7 @@ recipeImportImage.addEventListener("change", async () => {
         if (recipeYomiganaInput) {
             recipeYomiganaInput.value = recipeData.yomigana || "";
             console.log("よみがな自動入力確認:", recipeData.yomigana);
-        
+
         }
 
         // AIが読み取った材料を入力欄に反映
@@ -528,7 +556,22 @@ recipeImportImage.addEventListener("change", async () => {
                 deleteButton.className = "deleteButton";
                 deleteButton.textContent = "×";
 
-                ingredientRow.append(nameInput, amountInput, deleteButton);
+                const voiceRow = document.createElement("div");
+                voiceRow.className = "voiceInputRow";
+
+                const voiceButton = document.createElement("button");
+                voiceButton.type = "button";
+                voiceButton.className = "voiceInputButton";
+                voiceButton.textContent = "🎤";
+                voiceButton.setAttribute("aria-label", "材料名を音声入力");
+
+                voiceButton.addEventListener("click", () => {
+                    startVoiceInput(nameInput);
+                });
+
+                voiceRow.append(nameInput, voiceButton);
+
+                ingredientRow.append(voiceRow, amountInput, deleteButton);
                 ingredientsArea.appendChild(ingredientRow);
             });
         }

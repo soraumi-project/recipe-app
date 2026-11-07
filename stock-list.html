@@ -7,10 +7,7 @@
 
     <title>材料在庫管理</title>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-        rel="stylesheet"
-    >
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
 
     <link rel="stylesheet" href="css/stock-list.css">
 </head>
@@ -34,42 +31,42 @@
 
                 <div class="stockInputGroup">
                     <label for="stockNameInput">材料名</label>
-                    <input
-                        type="text"
-                        id="stockNameInput"
-                        placeholder="例：卵"
-                    >
+
+                    <div class="voiceInputRow">
+                        <input type="text" id="stockNameInput" placeholder="例：卵">
+                        <button type="button" class="voiceInputButton"
+                            onclick="startVoiceInput(this.previousElementSibling)" aria-label="材料名を音声入力">🎤</button>
+                    </div>
                 </div>
 
                 <div class="stockInputGroup">
                     <label for="stockQuantityInput">数量</label>
-                    <input
-                        type="number"
-                        id="stockQuantityInput"
-                        min="0"
-                        step="1"
-                        placeholder="例：6"
-                    >
+
+                    <div class="voiceInputRow">
+                        <input type="number" id="stockQuantityInput" min="0" step="1" placeholder="例：6">
+                        <button type="button" class="voiceInputButton"
+                            onclick="startVoiceInput(this.previousElementSibling)" aria-label="数量を音声入力">🎤</button>
+                    </div>
                 </div>
 
                 <div class="stockInputGroup">
                     <label for="stockUnitInput">単位</label>
-                    <input
-                        type="text"
-                        id="stockUnitInput"
-                        placeholder="例：個"    
-                    >
+
+                    <div class="voiceInputRow">
+                        <input type="text" id="stockUnitInput" placeholder="例：個">
+                        <button type="button" class="voiceInputButton"
+                            onclick="startVoiceInput(this.previousElementSibling)" aria-label="単位を音声入力">🎤</button>
+                    </div>
                 </div>
 
                 <div class="stockInputGroup">
                     <label for="stockAlertInput">警告する数量</label>
-                    <input
-                        type="number"
-                        id="stockAlertInput"
-                        min="0"
-                        step="1"
-                        placeholder="例：2"
-                    >
+
+                    <div class="voiceInputRow">
+                        <input type="number" id="stockAlertInput" min="0" step="1" placeholder="例：2">
+                        <button type="button" class="voiceInputButton"
+                            onclick="startVoiceInput(this.previousElementSibling)" aria-label="警告する数量を音声入力">🎤</button>
+                    </div>
                 </div>
             </div>
 
@@ -89,6 +86,7 @@
 
     </main>
 
+    <script src="js/voice-input.js"></script>
     <script src="js/stock-list.js"></script>
 
 </body>

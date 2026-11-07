@@ -463,8 +463,40 @@ function createIngredientRow(
         }
     );
 
-    row.appendChild(nameInput);
-    row.appendChild(amountInput);
+    // 材料名とマイクボタンをまとめる
+    const nameRow = document.createElement("div");
+    nameRow.className = "voiceInputRow";
+
+    const voiceButton = document.createElement("button");
+    voiceButton.type = "button";
+    voiceButton.className = "voiceInputButton";
+    voiceButton.textContent = "🎤";
+    voiceButton.setAttribute("aria-label", "材料名を音声入力");
+
+    voiceButton.addEventListener("click", () => {
+        startVoiceInput(nameInput);
+    });
+
+    nameRow.append(nameInput, voiceButton);
+
+    // 分量とマイクボタンをまとめる
+    const amountRow = document.createElement("div");
+    amountRow.className = "voiceInputRow";
+
+    const amountVoiceButton = document.createElement("button");
+    amountVoiceButton.type = "button";
+    amountVoiceButton.className = "voiceInputButton";
+    amountVoiceButton.textContent = "🎤";
+    amountVoiceButton.setAttribute("aria-label", "分量を音声入力");
+
+    amountVoiceButton.addEventListener("click", () => {
+        startVoiceInput(amountInput);
+    });
+
+    amountRow.append(amountInput, amountVoiceButton);
+
+    row.appendChild(nameRow);
+    row.appendChild(amountRow);
     row.appendChild(removeButton);
 
     return row;
@@ -517,7 +549,29 @@ function createStepRow(stepText = "") {
         }
     );
 
-    row.appendChild(textarea);
+    // 作り方とマイクボタンをまとめる
+    const stepVoiceRow = document.createElement("div");
+    stepVoiceRow.className = "voiceInputRow";
+
+    // マイクボタンを作成
+    const stepVoiceButton = document.createElement("button");
+    stepVoiceButton.type = "button";
+    stepVoiceButton.className = "voiceInputButton";
+    stepVoiceButton.textContent = "🎤";
+    stepVoiceButton.setAttribute(
+        "aria-label",
+        "作り方を音声入力"
+    );
+
+    // マイクを押したときの処理
+    stepVoiceButton.addEventListener("click", () => {
+        startVoiceInput(textarea);
+    });
+
+    // 入力欄とマイクを横並びにする
+    stepVoiceRow.append(textarea, stepVoiceButton);
+
+    row.appendChild(stepVoiceRow);
     row.appendChild(removeButton);
 
     return row;
@@ -592,12 +646,12 @@ function getStepText(step) {
 /**
  * 保存済みのタグを選択する
  */
-function selectSavedTag(savedTag){
+function selectSavedTag(savedTag) {
     const tag =
         getText(savedTag).trim() ||
         "なし";
 
-    let radio = 
+    let radio =
         tagContainer.querySelector(
             `input[name="recipe-tag"][value="${CSS.escape(tag)}"]`
         );
@@ -606,7 +660,7 @@ function selectSavedTag(savedTag){
      * 保存済みタグが標準タグにない場合は
      * 編集画面に自動で追加する
      */
-    if(!radio){
+    if (!radio) {
         const label =
             document.createElement("label");
 
@@ -617,7 +671,7 @@ function selectSavedTag(savedTag){
         radio.name = "recipe-tag"
         radio.value = tag;
 
-        const span = 
+        const span =
             document.createElement("span");
 
         span.textContent = tag;
@@ -633,14 +687,11 @@ function selectSavedTag(savedTag){
 /**
  * 保存済みデータを入力欄へ入れる
  */
-function populateForm(){
-    titleInput.value = 
-        getText(
-            selectedRecipe.titleKana ??
-            selectedRecipe.kana
-        );
-    
-    recipeImages = 
+function populateForm() {
+    titleInput.value =
+        getText(selectedRecipe.title);
+
+    recipeImages =
         getRecipeImages(selectedRecipe);
 
     currentImageIndex = 0;
@@ -648,18 +699,18 @@ function populateForm(){
 
     ingredientContainer.innerHTML = "";
 
-    const ingredients = 
+    const ingredients =
         Array.isArray(
             selectedRecipe.ingredients
         )
-            ?selectedRecipe.ingredients
-            :[];
+            ? selectedRecipe.ingredients
+            : [];
 
-    if(ingredients.length === 0){
+    if (ingredients.length === 0) {
         ingredientContainer.appendChild(
             createIngredientRow()
         );
-    }else{
+    } else {
         ingredients.forEach((ingredient) => {
             ingredientContainer.appendChild(
                 createIngredientRow(
@@ -672,17 +723,17 @@ function populateForm(){
 
     stepContainer.innerHTML = "";
 
-    const steps = 
-    Array.isArray(selectedRecipe.steps)
-        ? selectedRecipe.steps
-        :[];
+    const steps =
+        Array.isArray(selectedRecipe.steps)
+            ? selectedRecipe.steps
+            : [];
 
-    if(steps.length === 0){
+    if (steps.length === 0) {
         stepContainer.appendChild(
             createStepRow()
         );
-    }else{
-        steps.forEach((step) =>{
+    } else {
+        steps.forEach((step) => {
             stepContainer.appendChild(
                 createStepRow(
                     getStepText(step)
@@ -984,8 +1035,8 @@ function initializeRecipeEdit() {
     );
 
     updateButton.addEventListener(
-    "click",
-    updateRecipe
+        "click",
+        updateRecipe
     );
 }
 

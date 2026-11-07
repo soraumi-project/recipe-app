@@ -7,8 +7,7 @@
 
     <title>買い物リスト</title>
 
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
 
     <link rel="stylesheet" href="css/shopping-list.css">
 </head>
@@ -32,17 +31,19 @@
             <label for="itemInput">買うもの</label>
 
             <div class="inputArea">
-                <input
-                    type="text" id="itemInput"
-                    placeholder="例:玉ねぎ" autocomplete="off"
-                >
+                <div class="voiceInputRow">
+                    <input type="text" id="itemInput" placeholder="例:玉ねぎ" autocomplete="off">
+
+                    <button type="button" class="voiceInputButton"
+                        onclick="startVoiceInput(this.previousElementSibling)" aria-label="買うものを音声入力">🎤</button>
+                </div>
 
                 <button type="button" id="addButton">
                     追加
                 </button>
             </div>
         </section>
-        
+
         <section class="shoppingSection">
 
             <p id="emptyMessage">
@@ -53,14 +54,12 @@
 
         </section>
 
-        <button
-            type="button" id="deleteCheckedButton"
-            class="deleteCheckedButton"
-        >
-            チェック済みを削除 
+        <button type="button" id="deleteCheckedButton" class="deleteCheckedButton">
+            チェック済みを削除
         </button>
     </main>
 
+    <script src="js/voice-input.js"></script>
     <script src="js/shopping-list.js"></script>
 
 </body>
